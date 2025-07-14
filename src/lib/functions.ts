@@ -102,21 +102,9 @@ export function drawCircle(
 
 	// Draw wedges dividing the circle into segments
 	let segmentAngle = 360 / numberOfSegments;
-	// let lowestCoprimeNumber = lowestCoprime(numberOfSegments);
-	// if (lowestCoprimeNumber === null) {
-	// throw new Error('No coprime found');
-	// }
-	// // Starting HSV Color to use for each segment, ensuring each wedge is a different color
-	// let hue = 0;
-	// const saturation = 1;
-	// const brightness = 1;
 	for (let i = 0; i < numberOfSegments; i++) {
 		let startAngle = segmentAngle * i;
 		let endAngle = startAngle + segmentAngle;
-		// hue = ((i * lowestCoprimeNumber * (360 / numberOfSegments)) % 360) / 360;
-		// console.log(hue);
-		// let rgb = HSVtoRGB(hue, saturation, brightness);
-		// let color = RGBtoHEX(rgb.r, rgb.g, rgb.b);
 		let color = '#ff0000';
 		if (i % 2 === 0) {
 			color = '#00ff00';
