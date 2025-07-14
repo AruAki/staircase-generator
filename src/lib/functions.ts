@@ -105,13 +105,25 @@ export function drawCircle(
 	for (let i = 0; i < numberOfSegments; i++) {
 		let startAngle = segmentAngle * i;
 		let endAngle = startAngle + segmentAngle;
-		let color = '#ff0000';
-		if (i % 2 === 0) {
-			color = '#00ff00';
+		let variation = i % 3;
+		let color = '#000';
+		switch (variation) {
+			case 0:
+				color = '#dc2626';
+				break;
+			case 1:
+				color = '#22d3ee';
+				break;
+			case 2:
+				color = '#16a34a';
+				break;
 		}
-		if (i === 0 && numberOfSegments % 2 === 1) {
-			color = '#0000ff';
+
+		// Edge case for when there are exactly 4 segments
+		if (i === 3 && numberOfSegments === 4) {
+			color = '#22d3ee';
 		}
+
 		drawWedge(pixels, cx, cy, radius, startAngle, endAngle, color);
 	}
 }
