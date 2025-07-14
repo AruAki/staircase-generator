@@ -11,7 +11,7 @@
 </script>
 
 <button
-	class={{ 'aspect-square border': true, 'border-2 border-black': clicked }}
+	class={{ 'aspect-square border': true, 'opacity-50': clicked }}
 	style="width: {size}px; height: {size}px; background-color: {color}"
 	onclick={() => (clicked = !clicked)}
 	aria-hidden="true"
