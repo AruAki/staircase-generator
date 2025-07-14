@@ -107,7 +107,7 @@
 			<Input
 				type="number"
 				value={mainCircleSize}
-				placeholder="Main Circle Size"
+				placeholder="Circle Radius"
 				labelFocusedClass="bg-zinc-900"
 				class="border-zinc-700"
 				onchange={(e) => {
@@ -206,7 +206,7 @@
 					draw();
 				}}
 			/>
-			<label for="drawSecondCircle">Draw Second Circle?</label>
+			<label for="drawSecondCircle">Draw Secondary Circle?</label>
 		</div>
 		{#if drawSecondCircle}
 			<div class="flex flex-row gap-2">
@@ -226,7 +226,7 @@
 						}
 						draw();
 					}}
-					placeholder="Second Circle Size"
+					placeholder="Secondary Circle Radius"
 					labelFocusedClass="bg-zinc-900"
 					class="border-zinc-700"
 				/>
