@@ -98,7 +98,7 @@ export function drawCircle(
 		}
 	}
 
-	if (!drawSegments) return;
+	if (!drawSegments || numberOfSegments === 0) return;
 
 	// Draw wedges dividing the circle into segments
 	let segmentAngle = 360 / numberOfSegments;

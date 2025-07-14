@@ -90,21 +90,18 @@
 				onchange={(e) => {
 					let value = e.target.value;
 					if (value === '') {
-						value = 8;
+						value = 0;
 					} else {
 						value = Number(value);
 					}
 
 					numberOfSegments = value;
-					if (numberOfSegments < 1) {
-						numberOfSegments = 8;
-					}
 					draw();
 				}}
 			/>
 			<input
 				type="range"
-				min="3"
+				min="0"
 				max="512"
 				bind:value={numberOfSegments}
 				class=""
