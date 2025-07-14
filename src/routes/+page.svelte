@@ -16,11 +16,22 @@
 
 	onMount(() => {
 		if (browser) {
+			mainCircleSize = Number(localStorage.getItem('mainCircleSize')) || 20;
+			secondCircleSize = Number(localStorage.getItem('secondCircleSize')) || 10;
+			numberOfSegments = Number(localStorage.getItem('numberOfSegments')) || 8;
+			drawSecondCircle =
+				localStorage.getItem('drawSecondCircle') === 'true' || false;
 			draw();
 		}
 	});
 
 	function draw() {
+		// Save all values to localStorage
+		localStorage.setItem('mainCircleSize', mainCircleSize.toString());
+		localStorage.setItem('secondCircleSize', secondCircleSize.toString());
+		localStorage.setItem('numberOfSegments', numberOfSegments.toString());
+		localStorage.setItem('drawSecondCircle', drawSecondCircle.toString());
+
 		pixels = [];
 		drawCircle(
 			pixels,
