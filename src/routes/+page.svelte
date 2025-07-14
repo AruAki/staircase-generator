@@ -70,10 +70,31 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Aru Aki's Pixel Spiral & Curved Staircase Generator</title>
+	<meta
+		name="description"
+		content="Generate pixel spiral and curved staircases"
+	/>
+	<meta name="author" content="Aru Aki" />
+	<meta
+		property="og:title"
+		content="Aru Aki's Pixel Spiral & Curved Staircase Generator"
+	/>
+	<meta
+		property="og:description"
+		content="Generate pixel spiral and curved staircases"
+	/>
+	<meta
+		name="keywords"
+		content="pixel, spiral, curved, staircase, generator, aru aki, minecraft, minecraft-java, minecraft-bedrock, build, circle"
+	/>
+</svelte:head>
+
 <div
 	class="flex min-h-screen w-full flex-col items-center justify-center gap-6 p-4"
 >
-	<h1 class="text-4xl">Aru Aki's Staircase Generator</h1>
+	<h1 class="text-4xl">Aru Aki's Pixel Spiral & Curved Staircase Generator</h1>
 	<a
 		href="https://github.com/AruAki/staircase-generator"
 		class="fixed bottom-1.5 right-3 flex flex-row items-center gap-2 rounded-lg bg-zinc-700 px-3 py-2"
