@@ -2,7 +2,9 @@
 	import { browser } from '$app/environment';
 	import Input from '$lib/components/Input.svelte';
 	import Renderer from '$lib/components/Renderer.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { drawCircle } from '$lib/functions';
+	import type { SegmentColoringMethod } from '$lib/types';
 	import { Github } from '@o7/icon';
 	import { onMount } from 'svelte';
 
@@ -10,6 +12,7 @@
 	let mainCircleSize = $state(20);
 	let secondCircleSize = $state(10);
 	let fillSegments = $state(true);
+	let segmentColoringMethod: SegmentColoringMethod = $state('colorWheel');
 	let drawSecondCircle = $state(false);
 	let gridSize = $derived.by(() => {
 		return mainCircleSize * 2 + 2;
@@ -21,6 +24,8 @@
 			mainCircleSize = Number(localStorage.getItem('mainCircleSize')) || 20;
 			secondCircleSize = Number(localStorage.getItem('secondCircleSize')) || 10;
 			numberOfSegments = Number(localStorage.getItem('numberOfSegments')) || 8;
+			segmentColoringMethod = (localStorage.getItem('segmentColoringMethod') ||
+				'colorWheel') as SegmentColoringMethod;
 
 			if (localStorage.getItem('fillSegments') === null) {
 				fillSegments = true;
@@ -41,6 +46,7 @@
 		localStorage.setItem('numberOfSegments', numberOfSegments.toString());
 		localStorage.setItem('drawSecondCircle', drawSecondCircle.toString());
 		localStorage.setItem('fillSegments', fillSegments.toString());
+		localStorage.setItem('segmentColoringMethod', segmentColoringMethod);
 
 		pixels = [];
 		drawCircle(
@@ -50,6 +56,7 @@
 			mainCircleSize,
 			false,
 			true,
+			segmentColoringMethod,
 			numberOfSegments,
 			fillSegments,
 		);
@@ -131,7 +138,8 @@
 			<input
 				type="range"
 				min="0"
-				max="512"
+				max="96"
+				step="4"
 				bind:value={numberOfSegments}
 				class=""
 				onchange={() => {
@@ -150,6 +158,22 @@
 				}}
 			/>
 			<label for="fillSegments">Fill Segments?</label>
+		</div>
+
+		<div class="flex flex-row gap-2">
+			<Select
+				value={segmentColoringMethod}
+				onchange={(v) => {
+					segmentColoringMethod = v as SegmentColoringMethod;
+					draw();
+				}}
+				class="w-full border-zinc-700"
+				title="Segment Coloring Method"
+				containerClass="w-full"
+			>
+				<option value="colorWheel">Color Wheel</option>
+				<option value="alternating">Alternate</option>
+			</Select>
 		</div>
 
 		<div class="flex flex-row gap-2">

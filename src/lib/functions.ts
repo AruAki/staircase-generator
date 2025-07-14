@@ -1,3 +1,5 @@
+import type { SegmentColoringMethod } from './types';
+
 /**
  * Draws a line between two points using Bresenham's algorithm
  * @param x1
@@ -72,6 +74,7 @@ export function drawCircle(
 	thickness = 10,
 	fill = false,
 	drawSegments = false,
+	segmentColoringMethod: SegmentColoringMethod = 'colorWheel',
 	numberOfSegments = 8,
 	fillWedges = true,
 ) {
@@ -104,12 +107,10 @@ export function drawCircle(
 	// Draw wedges dividing the circle into segments
 	let segmentAngle = 360 / numberOfSegments;
 
-	if (fillWedges) {
-		for (let i = 0; i < numberOfSegments; i++) {
-			let startAngle = segmentAngle * i;
-			let endAngle = startAngle + segmentAngle;
-			let variation = i % 3;
-			let color = '#000';
+	for (let i = 0; i < numberOfSegments; i++) {
+		let color = '#000';
+		let variation = i % 3;
+		if (segmentColoringMethod === 'alternating') {
 			switch (variation) {
 				case 0:
 					color = '#dc2626';
@@ -121,25 +122,35 @@ export function drawCircle(
 					color = '#16a34a';
 					break;
 			}
-
 			// Edge case for when there are exactly 4 segments
 			if (i === 3 && numberOfSegments === 4) {
 				color = '#22d3ee';
 			}
+		}
+		if (segmentColoringMethod === 'colorWheel') {
+			color = getColorWheel(i, numberOfSegments);
+		}
+		if (fillWedges) {
+			let startAngle = segmentAngle * i;
+			let endAngle = startAngle + segmentAngle;
 
 			drawWedge(pixels, cx, cy, radius, startAngle, endAngle, color);
-		}
-	} else {
-		//Draw lines from the center to the edges of the circle
-		for (let i = 0; i < numberOfSegments; i++) {
+		} else {
+			//Draw lines from the center to the edges of the circle
 			let startRad = (segmentAngle * i * Math.PI) / 180;
-			let endRad = (segmentAngle * (i + 1) * Math.PI) / 180;
 			let x1 = cx + radius * Math.cos(startRad);
 			let y1 = cy + radius * Math.sin(startRad);
 
 			let x = Math.round(x1);
 			let y = Math.round(y1);
-			drawLine(pixels, cx, cy, x, y, '#ff0000');
+			drawLine(
+				pixels,
+				cx,
+				cy,
+				x,
+				y,
+				segmentColoringMethod === 'colorWheel' ? color : '#ff0000',
+			);
 		}
 	}
 }
@@ -191,4 +202,63 @@ export function drawWedge(
 }
 export function genRandomColor() {
 	return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
+function HSVtoRGB(h: number, s: number, v: number) {
+	var r, g, b, i, f, p, q, t;
+	i = Math.floor(h * 6);
+	f = h * 6 - i;
+	p = v * (1 - s);
+	q = v * (1 - f * s);
+	t = v * (1 - (1 - f) * s);
+	switch (i % 6) {
+		case 0:
+			((r = v), (g = t), (b = p));
+			break;
+		case 1:
+			((r = q), (g = v), (b = p));
+			break;
+		case 2:
+			((r = p), (g = v), (b = t));
+			break;
+		case 3:
+			((r = p), (g = q), (b = v));
+			break;
+		case 4:
+			((r = t), (g = p), (b = v));
+			break;
+		case 5:
+			((r = v), (g = p), (b = q));
+			break;
+	}
+	return {
+		r: Math.round(r! * 255),
+		g: Math.round(g! * 255),
+		b: Math.round(b! * 255),
+	};
+}
+function RGBtoHEX(r: number, g: number, b: number) {
+	return `#${NumberToHex(r)}${NumberToHex(g)}${NumberToHex(b)}`;
+}
+function NumberToHex(n: number) {
+	return n.toString(16).padStart(2, '0');
+}
+
+function vanDerCorput(n: number, base: number = 2): number {
+	let vdc = 0,
+		denom = 1;
+	while (n > 0) {
+		denom *= base;
+		vdc += (n % base) / denom;
+		n = Math.floor(n / base);
+	}
+	return vdc;
+}
+
+function getColorWheel(n: number, total: number) {
+	n = n % (total / 2); // Prevent colors from wrapping around and being the same color
+
+	let hue = vanDerCorput(n) * 360;
+	let rgb = HSVtoRGB(hue / 360, 1, 1);
+	return RGBtoHEX(rgb.r, rgb.g, rgb.b);
 }
