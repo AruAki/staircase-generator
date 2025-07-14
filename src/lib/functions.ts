@@ -22,10 +22,11 @@ export function drawLine(
 	let sx = x1 > x2 ? -1 : 1;
 	let sy = y1 > y2 ? -1 : 1;
 
+	const errorConstant = 2;
 	if (dx > dy) {
-		let error = dx / 2;
+		let error = dx / errorConstant;
 		while (x != x2) {
-			drawPixel(pixels, x, y, color);
+			drawPixel(pixels, x, y, color, true, '#fff');
 			error -= dy;
 			if (error < 0) {
 				y += sy;
@@ -34,9 +35,9 @@ export function drawLine(
 			x += sx;
 		}
 	} else {
-		let error = dy / 2;
+		let error = dy / errorConstant;
 		while (y != y2) {
-			drawPixel(pixels, x, y, color);
+			drawPixel(pixels, x, y, color, true, '#fff');
 			error -= dx;
 			if (error < 0) {
 				x += sx;
@@ -45,7 +46,7 @@ export function drawLine(
 			y += sy;
 		}
 	}
-	drawPixel(pixels, x1, y1, color);
+	drawPixel(pixels, x1, y1, color); // Draw the final pixel
 }
 
 export function drawPixel(
@@ -137,18 +138,16 @@ export function drawCircle(
 			drawWedge(pixels, cx, cy, radius, startAngle, endAngle, color);
 		} else {
 			//Draw lines from the center to the edges of the circle
-			let startRad = (segmentAngle * i * Math.PI) / 180;
-			let x1 = cx + radius * Math.cos(startRad);
-			let y1 = cy + radius * Math.sin(startRad);
+			let theta = (segmentAngle * i * Math.PI) / 180;
+			let x = cx + radius * Math.cos(theta);
+			let y = cy + radius * Math.sin(theta);
 
-			let x = Math.round(x1);
-			let y = Math.round(y1);
 			drawLine(
 				pixels,
 				cx,
 				cy,
-				x,
-				y,
+				Math.round(x),
+				Math.round(y),
 				segmentColoringMethod === 'colorWheel' ? color : '#ff0000',
 			);
 		}
