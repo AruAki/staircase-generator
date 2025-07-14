@@ -171,7 +171,7 @@
 				title="Segment Coloring Method"
 				containerClass="w-full"
 			>
-				<option value="colorWheel">Color Wheel</option>
+				<option value="colorWheel">Van der Corput</option>
 				<option value="alternating">Alternate</option>
 			</Select>
 		</div>
