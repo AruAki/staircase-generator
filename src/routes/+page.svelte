@@ -224,3 +224,9 @@
 	</div>
 	<Renderer bind:size={gridSize} bind:setPixels={pixels} />
 </div>
+
+<style>
+	input[type='range'] {
+		accent-color: theme('colors.purple.500');
+	}
+</style>
