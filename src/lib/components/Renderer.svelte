@@ -31,7 +31,7 @@
 	}
 </script>
 
-<div class="flex aspect-square max-w-full flex-col overflow-scroll">
+<div class="scrollbar flex aspect-square max-w-full flex-col overflow-x-scroll">
 	{#each grid as row, i}
 		{#if i != 0}
 			<div class="flex flex-row">
@@ -44,3 +44,29 @@
 		{/if}
 	{/each}
 </div>
+
+<style>
+	.scrollbar::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	.scrollbar::-webkit-scrollbar-track {
+		background: transparent;
+		border-radius: 4px;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		background-color: theme('colors.purple.500');
+		border-radius: 4px;
+		border: 2px solid transparent;
+		background-clip: content-box;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb:hover {
+		background-color: theme('colors.purple.600');
+	}
+	.scrollbar::-webkit-scrollbar-corner {
+		background: transparent; /* or match your container background */
+	}
+</style>
