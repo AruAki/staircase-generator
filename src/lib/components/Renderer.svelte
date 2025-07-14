@@ -26,7 +26,7 @@
 		if (setPixels[x]?.[y] !== undefined) {
 			return setPixels[x][y];
 		} else {
-			return '#aaa';
+			return 'transparent';
 		}
 	}
 </script>
