@@ -73,6 +73,7 @@ export function drawCircle(
 	fill = false,
 	drawSegments = false,
 	numberOfSegments = 8,
+	fillWedges = true,
 ) {
 	let cx = gridSize / 2;
 	let cy = gridSize / 2;
@@ -102,29 +103,44 @@ export function drawCircle(
 
 	// Draw wedges dividing the circle into segments
 	let segmentAngle = 360 / numberOfSegments;
-	for (let i = 0; i < numberOfSegments; i++) {
-		let startAngle = segmentAngle * i;
-		let endAngle = startAngle + segmentAngle;
-		let variation = i % 3;
-		let color = '#000';
-		switch (variation) {
-			case 0:
-				color = '#dc2626';
-				break;
-			case 1:
+
+	if (fillWedges) {
+		for (let i = 0; i < numberOfSegments; i++) {
+			let startAngle = segmentAngle * i;
+			let endAngle = startAngle + segmentAngle;
+			let variation = i % 3;
+			let color = '#000';
+			switch (variation) {
+				case 0:
+					color = '#dc2626';
+					break;
+				case 1:
+					color = '#22d3ee';
+					break;
+				case 2:
+					color = '#16a34a';
+					break;
+			}
+
+			// Edge case for when there are exactly 4 segments
+			if (i === 3 && numberOfSegments === 4) {
 				color = '#22d3ee';
-				break;
-			case 2:
-				color = '#16a34a';
-				break;
-		}
+			}
 
-		// Edge case for when there are exactly 4 segments
-		if (i === 3 && numberOfSegments === 4) {
-			color = '#22d3ee';
+			drawWedge(pixels, cx, cy, radius, startAngle, endAngle, color);
 		}
+	} else {
+		//Draw lines from the center to the edges of the circle
+		for (let i = 0; i < numberOfSegments; i++) {
+			let startRad = (segmentAngle * i * Math.PI) / 180;
+			let endRad = (segmentAngle * (i + 1) * Math.PI) / 180;
+			let x1 = cx + radius * Math.cos(startRad);
+			let y1 = cy + radius * Math.sin(startRad);
 
-		drawWedge(pixels, cx, cy, radius, startAngle, endAngle, color);
+			let x = Math.round(x1);
+			let y = Math.round(y1);
+			drawLine(pixels, cx, cy, x, y, '#ff0000');
+		}
 	}
 }
 

@@ -9,6 +9,7 @@
 	let pixels: string[][] = $state([]);
 	let mainCircleSize = $state(20);
 	let secondCircleSize = $state(10);
+	let fillSegments = $state(true);
 	let drawSecondCircle = $state(false);
 	let gridSize = $derived.by(() => {
 		return mainCircleSize * 2 + 2;
@@ -20,6 +21,13 @@
 			mainCircleSize = Number(localStorage.getItem('mainCircleSize')) || 20;
 			secondCircleSize = Number(localStorage.getItem('secondCircleSize')) || 10;
 			numberOfSegments = Number(localStorage.getItem('numberOfSegments')) || 8;
+
+			if (localStorage.getItem('fillSegments') === null) {
+				fillSegments = true;
+				localStorage.setItem('fillSegments', fillSegments.toString());
+			}
+			fillSegments = localStorage.getItem('fillSegments') === 'true' || false;
+
 			drawSecondCircle =
 				localStorage.getItem('drawSecondCircle') === 'true' || false;
 			draw();
@@ -32,6 +40,7 @@
 		localStorage.setItem('secondCircleSize', secondCircleSize.toString());
 		localStorage.setItem('numberOfSegments', numberOfSegments.toString());
 		localStorage.setItem('drawSecondCircle', drawSecondCircle.toString());
+		localStorage.setItem('fillSegments', fillSegments.toString());
 
 		pixels = [];
 		drawCircle(
@@ -42,6 +51,7 @@
 			false,
 			true,
 			numberOfSegments,
+			fillSegments,
 		);
 
 		if (drawSecondCircle && secondCircleSize > 0) {
@@ -128,6 +138,18 @@
 					draw();
 				}}
 			/>
+		</div>
+
+		<div class="flex flex-row gap-2">
+			<input
+				type="checkbox"
+				id="fillSegments"
+				bind:checked={fillSegments}
+				onchange={() => {
+					draw();
+				}}
+			/>
+			<label for="fillSegments">Fill Segments?</label>
 		</div>
 
 		<div class="flex flex-row gap-2">
