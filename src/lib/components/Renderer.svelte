@@ -33,10 +33,14 @@
 
 <div class="flex aspect-square max-w-full flex-col overflow-scroll">
 	{#each grid as row, i}
-		<div class="flex flex-row">
-			{#each row as pixel, j}
-				<Pixel color={pixel} />
-			{/each}
-		</div>
+		{#if i != 0}
+			<div class="flex flex-row">
+				{#each row as pixel, j}
+					{#if j != 0}
+						<Pixel color={pixel} />
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	{/each}
 </div>
