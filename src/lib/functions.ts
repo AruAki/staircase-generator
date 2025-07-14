@@ -120,7 +120,7 @@ export function drawCircle(
 					color = '#22d3ee';
 					break;
 				case 2:
-					color = '#16a34a';
+					color = '#a3e635';
 					break;
 			}
 			// Edge case for when there are exactly 4 segments
