@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@o7/icon':
+        specifier: ^0.3.58
+        version: 0.3.58(@sveltejs/kit@2.22.5(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.35.6)(vite@7.0.4(jiti@1.21.7)(yaml@2.8.0)))(svelte@5.35.6)(vite@7.0.4(jiti@1.21.7)(yaml@2.8.0)))(svelte@5.35.6)
     devDependencies:
       '@eslint/js':
         specifier: ^9.30.0
@@ -324,6 +328,12 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@o7/icon@0.3.58':
+    resolution: {integrity: sha512-zMIK9taSqR00wgRfUU8fNHw9n64yrESbP5pflpH1a4HpRJswPa3cKrrTqdrjJJ1XmMH27EOXNc/TqdcdR6yXOQ==}
+    peerDependencies:
+      '@sveltejs/kit': ^2.0.0
+      svelte: ^5.0.0-next.1
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1727,6 +1737,12 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
+
+  '@o7/icon@0.3.58(@sveltejs/kit@2.22.5(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.35.6)(vite@7.0.4(jiti@1.21.7)(yaml@2.8.0)))(svelte@5.35.6)(vite@7.0.4(jiti@1.21.7)(yaml@2.8.0)))(svelte@5.35.6)':
+    dependencies:
+      '@sveltejs/kit': 2.22.5(@sveltejs/vite-plugin-svelte@5.1.1(svelte@5.35.6)(vite@7.0.4(jiti@1.21.7)(yaml@2.8.0)))(svelte@5.35.6)(vite@7.0.4(jiti@1.21.7)(yaml@2.8.0))
+      magic-string: 0.30.17
+      svelte: 5.35.6
 
   '@pkgjs/parseargs@0.11.0':
     optional: true

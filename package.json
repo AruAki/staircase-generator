@@ -36,5 +36,8 @@
 		"onlyBuiltDependencies": [
 			"esbuild"
 		]
+	},
+	"dependencies": {
+		"@o7/icon": "^0.3.58"
 	}
 }

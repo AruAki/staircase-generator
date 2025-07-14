@@ -3,6 +3,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Renderer from '$lib/components/Renderer.svelte';
 	import { drawCircle } from '$lib/functions';
+	import { Github } from '@o7/icon';
 	import { onMount } from 'svelte';
 
 	let pixels: string[][] = $state([]);
@@ -55,7 +56,14 @@
 <div
 	class="flex min-h-screen w-full flex-col items-center justify-center gap-6 overflow-y-scroll"
 >
-	<h1 class="mb-4 text-4xl">Aru Aki's Staircase Generator</h1>
+	<h1 class="text-4xl">Aru Aki's Staircase Generator</h1>
+	<a
+		href="https://github.com/AruAki/staircase-generator"
+		class="absolute bottom-1 right-1.5 flex flex-row items-center gap-2 rounded-lg bg-zinc-700 px-3 py-2"
+	>
+		<Github />
+		<span>View on GitHub</span>
+	</a>
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-row gap-2">
 			<Input
