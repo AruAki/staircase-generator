@@ -13,6 +13,6 @@
 <button
 	class={{ 'aspect-square border': true, 'border-2 border-black': clicked }}
 	style="width: {size}px; height: {size}px; background-color: {color}"
-	onclick={() => (clicked = true)}
+	onclick={() => (clicked = !clicked)}
 	aria-hidden="true"
 ></button>
