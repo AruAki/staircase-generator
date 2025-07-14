@@ -1,37 +1,164 @@
 <script lang="ts">
-	import NextStep from '$lib/components/NextStep.svelte';
+	import { browser } from '$app/environment';
+	import Input from '$lib/components/Input.svelte';
+	import Renderer from '$lib/components/Renderer.svelte';
+	import { drawCircle } from '$lib/functions';
+	import { onMount } from 'svelte';
+
+	let pixels: string[][] = $state([]);
+	let mainCircleSize = $state(20);
+	let secondCircleSize = $state(10);
+	let drawSecondCircle = $state(false);
+	let gridSize = $derived.by(() => {
+		return mainCircleSize * 2 + 2;
+	});
+	let numberOfSegments = $state(8);
+
+	onMount(() => {
+		if (browser) {
+			draw();
+		}
+	});
+
+	function draw() {
+		pixels = [];
+		drawCircle(
+			pixels,
+			gridSize,
+			mainCircleSize,
+			mainCircleSize,
+			false,
+			true,
+			numberOfSegments,
+		);
+
+		if (drawSecondCircle && secondCircleSize > 0) {
+			if (secondCircleSize > mainCircleSize) {
+				secondCircleSize = mainCircleSize;
+			}
+			drawCircle(pixels, gridSize, secondCircleSize, secondCircleSize, true);
+		}
+	}
 </script>
 
-<main class="flex h-screen flex-col items-center justify-center">
-	<img src="/favicon.png" class="w-32" alt="o7 Logo" />
-	<h1 class="text-3xl font-bold">Welcome to the o7 stack!</h1>
-	<h2 class="my-6 text-2xl">Next Steps:</h2>
-	<div class="flex max-w-5xl justify-center gap-4 px-3">
-		<NextStep
-			title="Edit this page"
-			learnMore="https://svelte.dev/tutorial/basics"
-		>
-			<p>
-				Edit <code class="text-lime-300">src/routes/+page.svelte</code> to see your
-				changes live.
-			</p>
-			<p>
-				The source for these cards is in <code class="text-lime-300"
-					>src/lib/components/NextStep.svelte</code
-				>.
-			</p>
-			<p>
-				There's some global styling in <code class="text-lime-300"
-					>src/app.css</code
-				>.
-			</p>
-		</NextStep>
-	</div>
-</main>
+<div
+	class="flex min-h-screen w-full flex-col items-center justify-center gap-6 overflow-y-scroll"
+>
+	<h1 class="mb-4 text-4xl">Aru Aki's Staircase Generator</h1>
+	<div class="flex flex-col gap-4">
+		<div class="flex flex-row gap-2">
+			<Input
+				type="number"
+				value={mainCircleSize}
+				placeholder="Main Circle Size"
+				labelFocusedClass="bg-zinc-900"
+				class="border-zinc-700"
+				onchange={(e) => {
+					let value = e.target.value;
+					if (value === '') {
+						value = 16;
+					} else {
+						value = Number(value);
+					}
 
-<style>
-	code {
-		background: theme('colors.zinc.900');
-		padding: theme('spacing[0.5]');
-	}
-</style>
+					mainCircleSize = value;
+					if (mainCircleSize < 1) {
+						mainCircleSize = 16;
+					}
+					draw();
+				}}
+			/>
+			<input
+				type="range"
+				min="1"
+				max="50"
+				bind:value={mainCircleSize}
+				class=""
+				onchange={() => {
+					draw();
+				}}
+			/>
+		</div>
+
+		<div class="flex flex-row gap-2">
+			<Input
+				type="number"
+				value={numberOfSegments}
+				placeholder="Number of Segments"
+				labelFocusedClass="bg-zinc-900"
+				class="border-zinc-700"
+				onchange={(e) => {
+					let value = e.target.value;
+					if (value === '') {
+						value = 8;
+					} else {
+						value = Number(value);
+					}
+
+					numberOfSegments = value;
+					if (numberOfSegments < 1) {
+						numberOfSegments = 8;
+					}
+					draw();
+				}}
+			/>
+			<input
+				type="range"
+				min="3"
+				max="512"
+				bind:value={numberOfSegments}
+				class=""
+				onchange={() => {
+					draw();
+				}}
+			/>
+		</div>
+
+		<div class="flex flex-row gap-2">
+			<input
+				type="checkbox"
+				id="drawSecondCircle"
+				bind:checked={drawSecondCircle}
+				onchange={() => {
+					draw();
+				}}
+			/>
+			<label for="drawSecondCircle">Draw Second Circle?</label>
+		</div>
+		{#if drawSecondCircle}
+			<div class="flex flex-row gap-2">
+				<Input
+					type="number"
+					value={secondCircleSize}
+					onchange={(e) => {
+						let value = e.target.value;
+						if (value === '') {
+							value = 16;
+						} else {
+							value = Number(value);
+						}
+						secondCircleSize = value;
+						if (secondCircleSize < 1) {
+							secondCircleSize = 8;
+						}
+						draw();
+					}}
+					placeholder="Second Circle Size"
+					labelFocusedClass="bg-zinc-900"
+					class="border-zinc-700"
+				/>
+				<input
+					type="range"
+					min="1"
+					max={mainCircleSize}
+					bind:value={secondCircleSize}
+					onchange={() => {
+						console.log(drawSecondCircle);
+						draw();
+					}}
+				/>
+			</div>
+		{/if}
+	</div>
+	<Renderer bind:size={gridSize} bind:setPixels={pixels} />
+</div>
