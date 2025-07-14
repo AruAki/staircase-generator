@@ -12,7 +12,7 @@
 
 <button
 	class={{
-		'aspect-square border border-zinc-800': true,
+		'aspect-square rounded border-2 border-zinc-800': true,
 		'opacity-50': clicked,
 	}}
 	style="width: {size}px; height: {size}px; background-color: {color}"
