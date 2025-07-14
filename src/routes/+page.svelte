@@ -59,7 +59,7 @@
 	<h1 class="text-4xl">Aru Aki's Staircase Generator</h1>
 	<a
 		href="https://github.com/AruAki/staircase-generator"
-		class="absolute bottom-1 right-1.5 flex flex-row items-center gap-2 rounded-lg bg-zinc-700 px-3 py-2"
+		class="fixed bottom-1 right-1.5 flex flex-row items-center gap-2 rounded-lg bg-zinc-700 px-3 py-2"
 	>
 		<Github />
 		<span>View on GitHub</span>
