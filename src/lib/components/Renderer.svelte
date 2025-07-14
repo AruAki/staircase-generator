@@ -31,7 +31,7 @@
 	}
 </script>
 
-<div class="flex aspect-square flex-col overflow-scroll">
+<div class="flex aspect-square max-w-full flex-col overflow-scroll">
 	{#each grid as row, i}
 		<div class="flex flex-row">
 			{#each row as pixel, j}
