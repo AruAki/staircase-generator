@@ -61,6 +61,7 @@ export function drawPixel(
 		pixels[x] = [];
 	}
 	if (!replaceColor && pixels[x]![y] !== undefined) {
+		return;
 	}
 	if (specificColor !== '' && pixels[x]![y] === specificColor) {
 		return;

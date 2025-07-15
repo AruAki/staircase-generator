@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import CanvasRenderer from '$lib/components/CanvasRenderer.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Renderer from '$lib/components/Renderer.svelte';
 	import Select from '$lib/components/Select.svelte';
@@ -243,7 +244,7 @@
 			</div>
 		{/if}
 	</div>
-	<Renderer bind:size={gridSize} bind:setPixels={pixels} />
+	<CanvasRenderer bind:setPixels={pixels} />
 </div>
 
 <style>
