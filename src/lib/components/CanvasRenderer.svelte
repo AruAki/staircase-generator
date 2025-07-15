@@ -46,7 +46,6 @@
 		let x: number = Math.floor(clickedX / pixelSize);
 		let y: number = Math.floor(clickedY / pixelSize);
 
-		console.log(x, y);
 		activatePixel(x, y);
 		draw();
 	}
