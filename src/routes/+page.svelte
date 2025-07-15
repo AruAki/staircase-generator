@@ -73,23 +73,6 @@
 
 <svelte:head>
 	<title>Aru Aki's Pixel Spiral & Curved Staircase Generator</title>
-	<meta
-		name="description"
-		content="Generate pixel spiral and curved staircases"
-	/>
-	<meta name="author" content="Aru Aki" />
-	<meta
-		property="og:title"
-		content="Aru Aki's Pixel Spiral & Curved Staircase Generator"
-	/>
-	<meta
-		property="og:description"
-		content="Generate pixel spiral and curved staircases"
-	/>
-	<meta
-		name="keywords"
-		content="pixel, spiral, curved, staircase, generator, aru aki, minecraft, minecraft-java, minecraft-bedrock, build, circle"
-	/>
 </svelte:head>
 
 <div
