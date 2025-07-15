@@ -20,14 +20,13 @@
 
 	function draw() {
 		if (canvas) {
-			// let start = Date.now();
+			let start = Date.now();
 			let gridSize = setPixels.length;
 			canvas.width = (gridSize - 1) * pixelSize;
 			canvas.height = (gridSize - 1) * pixelSize;
 			let ctx = canvas.getContext('2d');
 			if (!ctx) return;
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = '#fff';
+
 			// Draw a grid of pixels, each with a
 			for (let x = 1; x < gridSize; x++) {
 				for (let y = 1; y < gridSize; y++) {
@@ -36,7 +35,7 @@
 					drawPixel(ctx, x - 1, y - 1, color);
 				}
 			}
-			// console.log(`Draw Took ${Date.now() - start}ms`);
+			console.log(`Draw Took ${Date.now() - start}ms`);
 		}
 	}
 	function canvasClicked(e: MouseEvent) {
@@ -47,7 +46,11 @@
 		let y: number = Math.floor(clickedY / pixelSize);
 
 		activatePixel(x, y);
-		draw();
+		// draw();
+		if (!canvas) return;
+		let ctx = canvas.getContext('2d');
+		if (!ctx) return;
+		drawPixel(ctx, x, y, getPixelColor(x + 1, y + 1), true);
 	}
 	function canvasRightClicked(e: MouseEvent) {
 		e.preventDefault();
@@ -63,6 +66,7 @@
 		// let start = Date.now();
 		// Scanline Flood Fill
 		let queue: number[][] = [[x, y]]; // Queue of y coordinates to check
+		let pixelsToRedraw: number[][] = [];
 		while (queue.length > 0) {
 			let [x, y]: any = queue.pop();
 			if (x === undefined || y === undefined) continue;
@@ -83,6 +87,7 @@
 				isPixelActivated(rightx, y) !== newState
 			) {
 				setActivatePixel(rightx, y, newState);
+				pixelsToRedraw.push([rightx, y]);
 
 				// Check Pixel above
 				if (y > 0 && getPixelColor(rightx + 1, y - 1 + 1) === color) {
@@ -112,7 +117,14 @@
 		}
 		// console.log(`Flood Fill Took ${Date.now() - start}ms`);
 
-		draw();
+		if (!canvas) return;
+		let ctx = canvas.getContext('2d');
+		if (!ctx) return;
+		for (let [x, y] of pixelsToRedraw) {
+			drawPixel(ctx, x!, y!, getPixelColor(x! + 1, y! + 1), true);
+		}
+
+		// draw();
 	}
 
 	function drawPixel(
@@ -120,11 +132,15 @@
 		x: number,
 		y: number,
 		color: string,
+		redraw: boolean = false,
 	) {
 		// Draw a pixel at (x, y) with the given color and a border
 		ctx.beginPath();
-		if (isPixelActivated(x, y)) ctx.globalAlpha = 0.5;
+		if (redraw)
+			ctx.clearRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+		if (color === 'transparent') return;
 		ctx.fillStyle = color;
+		if (isPixelActivated(x, y)) ctx.globalAlpha = 0.5;
 		ctx.roundRect(
 			x * pixelSize + borderSize,
 			y * pixelSize + borderSize,
@@ -133,28 +149,11 @@
 			2,
 		);
 		ctx.fill();
-
-		// Draw a border
-		// ctx.strokeStyle = '#27272a';
-		// ctx.lineWidth = borderSize;
-		// ctx.roundRect(
-		// 	x * pixelSize + borderSize / 2,
-		// 	y * pixelSize + borderSize / 2,
-		// 	pixelSize - borderSize,
-		// 	pixelSize - borderSize,
-		// 	roundSize,
-		// );
-		// ctx.stroke();
-
-		ctx.closePath();
 		ctx.globalAlpha = 1;
 	}
 
 	function getPixelColor(x: number, y: number): string {
-		if (setPixels[x]?.[y] !== undefined) {
-			return setPixels[x][y];
-		}
-		return 'transparent';
+		return setPixels[x]?.[y] || 'transparent';
 	}
 
 	/**
