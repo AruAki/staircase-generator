@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-	background: theme(colors.zinc.900);
+	background: theme('colors.zinc.900'); 
 	color: white;
 }
 input[type='range'] {
