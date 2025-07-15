@@ -20,7 +20,7 @@
 
 	function draw() {
 		if (canvas) {
-			let start = Date.now();
+			// let start = Date.now();
 			let gridSize = setPixels.length;
 			canvas.width = (gridSize - 1) * pixelSize;
 			canvas.height = (gridSize - 1) * pixelSize;
@@ -36,7 +36,7 @@
 					drawPixel(ctx, x - 1, y - 1, color);
 				}
 			}
-			console.log(`Draw Took ${Date.now() - start}ms`);
+			// console.log(`Draw Took ${Date.now() - start}ms`);
 		}
 	}
 	function canvasClicked(e: MouseEvent) {
@@ -57,54 +57,59 @@
 
 		let x: number = Math.floor(clickedX / pixelSize);
 		let y: number = Math.floor(clickedY / pixelSize);
-		let newState = activatePixel(x, y);
+		let newState = !isPixelActivated(x, y);
 		let color = getPixelColor(x + 1, y + 1);
 
-		// Flood Fill Clicked and all neighboring pixels of the same color to the opposite activation state
-		let queue: number[][] = [[x, y]];
-		let checkedPixels: string[] = [];
 		// let start = Date.now();
+		// Scanline Flood Fill
+		let queue: number[][] = [[x, y]]; // Queue of y coordinates to check
 		while (queue.length > 0) {
-			let xyArr: number[] | undefined = queue.shift();
-			if (xyArr === undefined) continue;
+			let [x, y]: any = queue.pop();
+			if (x === undefined || y === undefined) continue;
 
-			let x = xyArr[0];
-			let y = xyArr[1];
-			if (x == undefined || y == undefined) continue;
+			// Move left until edge of canvas or color.
+			let leftx = x;
+			while (leftx >= 0 && getPixelColor(leftx + 1, y + 1) === color) leftx--;
+			leftx++;
 
-			setActivatePixel(x, y, newState);
-			for (let dx = -1; dx <= 1; dx++) {
-				for (let dy = -1; dy <= 1; dy++) {
-					// Skip self
-					if (dx === 0 && dy === 0) continue;
-					// Skip diagonals
-					if (dx === 1 && dy === 1) continue;
-					if (dx === -1 && dy === 1) continue;
-					if (dx === 1 && dy === -1) continue;
-					if (dx === -1 && dy === -1) continue;
+			let spanAbove = false;
+			let spanBelow = false;
 
-					let newX = x + dx;
-					let newY = y + dy;
+			// Move right from left boundary, filling and checking neighbors
+			let rightx = leftx;
+			while (
+				rightx < setPixels.length &&
+				getPixelColor(rightx + 1, y + 1) === color &&
+				isPixelActivated(rightx, y) !== newState
+			) {
+				setActivatePixel(rightx, y, newState);
 
-					if (checkedPixels.includes(`${newX},${newY}`)) continue; // Already checked
-
-					if (
-						newX < 0 ||
-						newX >= setPixels.length ||
-						newY < 0 ||
-						newY >= setPixels.length
-					)
-						continue; // Out of bounds
-					checkedPixels.push(`${newX},${newY}`);
-
-					if (getPixelColor(newX + 1, newY + 1) === color) {
-						// This pixel is the same color, add it to the queue
-						queue.push([newX, newY]);
+				// Check Pixel above
+				if (y > 0 && getPixelColor(rightx + 1, y - 1 + 1) === color) {
+					if (!spanAbove) {
+						queue.push([rightx, y - 1]);
+						spanAbove = true;
 					}
+				} else {
+					spanAbove = false;
 				}
+
+				// Check Pixel below
+				if (
+					y < setPixels.length - 1 &&
+					getPixelColor(rightx, y + 2) === color
+				) {
+					if (!spanBelow) {
+						queue.push([rightx, y + 1]);
+						spanBelow = true;
+					}
+				} else {
+					spanBelow = false;
+				}
+
+				rightx++;
 			}
 		}
-		// console.log(checkedPixels.length);
 		// console.log(`Flood Fill Took ${Date.now() - start}ms`);
 
 		draw();
