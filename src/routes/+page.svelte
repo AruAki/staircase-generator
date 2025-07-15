@@ -2,7 +2,6 @@
 	import { browser } from '$app/environment';
 	import CanvasRenderer from '$lib/components/CanvasRenderer.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import Renderer from '$lib/components/Renderer.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { drawCircle } from '$lib/functions';
 	import type { SegmentColoringMethod } from '$lib/types';
