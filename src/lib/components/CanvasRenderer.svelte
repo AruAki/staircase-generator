@@ -97,7 +97,7 @@
 				// Check Pixel below
 				if (
 					y < setPixels.length - 1 &&
-					getPixelColor(rightx, y + 2) === color
+					getPixelColor(rightx + 1, y + 2) === color
 				) {
 					if (!spanBelow) {
 						queue.push([rightx, y + 1]);
