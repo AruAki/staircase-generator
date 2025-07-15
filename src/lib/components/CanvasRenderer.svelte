@@ -146,7 +146,7 @@
 			ctx.clearRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
 		if (color === 'transparent') return;
 		ctx.fillStyle = color;
-		if (isPixelActivated(x, y)) ctx.globalAlpha = 0.5;
+		if (isPixelActivated(x, y)) ctx.globalAlpha = 0.4;
 		ctx.roundRect(
 			x * pixelSize + borderSize,
 			y * pixelSize + borderSize,
