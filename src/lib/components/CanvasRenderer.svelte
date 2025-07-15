@@ -58,6 +58,10 @@
 	function canvasRightClicked(e: MouseEvent) {
 		e.preventDefault();
 
+		if (!canvas) return;
+		let ctx = canvas.getContext('2d');
+		if (!ctx) return;
+
 		let clickedX: number = e.offsetX;
 		let clickedY: number = e.offsetY;
 
@@ -90,6 +94,7 @@
 				isPixelActivated(rightx, y) !== newState
 			) {
 				setActivatePixel(rightx, y, newState);
+				drawPixel(ctx, rightx, y, color, true); // Redraw the pixel
 				pixelsToRedraw.push([rightx, y]);
 
 				// Check Pixel above
@@ -118,19 +123,7 @@
 				rightx++;
 			}
 		}
-		let floodFillTime = Date.now() - start;
-
-		start = Date.now();
-		if (!canvas) return;
-		let ctx = canvas.getContext('2d');
-		if (!ctx) return;
-		for (let [x, y] of pixelsToRedraw) {
-			drawPixel(ctx, x!, y!, getPixelColor(x! + 1, y! + 1), true);
-		}
-		if (DEBUG)
-			console.log(
-				`Flood Fill Took ${floodFillTime}ms. Redraw Took ${Date.now() - start}ms`,
-			);
+		if (DEBUG) console.log(`Flood Fill + Redraw Took ${Date.now() - start}ms.`);
 	}
 
 	function drawPixel(
