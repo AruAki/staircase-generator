@@ -8,8 +8,7 @@
 	} = $props();
 
 	const pixelSize: number = 16;
-	const borderSize: number = 1.5;
-	const roundSize: number = 4;
+	const borderSize: number = 2;
 	let canvas: HTMLCanvasElement | undefined = $state();
 	let activatedPixels: boolean[][] = $state([]);
 	$effect(() => {
@@ -21,7 +20,7 @@
 
 	function draw() {
 		if (canvas) {
-			// let start = Date.now();
+			let start = Date.now();
 			let gridSize = setPixels.length;
 			canvas.width = (gridSize - 1) * pixelSize;
 			canvas.height = (gridSize - 1) * pixelSize;
@@ -32,10 +31,12 @@
 			// Draw a grid of pixels, each with a
 			for (let x = 1; x < gridSize; x++) {
 				for (let y = 1; y < gridSize; y++) {
-					drawPixel(ctx, x - 1, y - 1, getPixelColor(x, y));
+					let color = getPixelColor(x, y);
+					if (color === 'transparent') continue;
+					drawPixel(ctx, x - 1, y - 1, color);
 				}
 			}
-			// console.log(`Draw Took ${Date.now() - start}ms`);
+			console.log(`Draw Took ${Date.now() - start}ms`);
 		}
 	}
 	function canvasClicked(e: MouseEvent) {
@@ -118,9 +119,7 @@
 	) {
 		// Draw a pixel at (x, y) with the given color and a border
 		ctx.beginPath();
-		if (isPixelActivated(x, y)) {
-			ctx.globalAlpha = 0.5;
-		}
+		if (isPixelActivated(x, y)) ctx.globalAlpha = 0.5;
 		ctx.fillStyle = color;
 		ctx.roundRect(
 			x * pixelSize + borderSize,
@@ -130,16 +129,19 @@
 			2,
 		);
 		ctx.fill();
-		ctx.strokeStyle = '#27272a';
-		ctx.lineWidth = borderSize;
-		ctx.roundRect(
-			x * pixelSize + borderSize / 2,
-			y * pixelSize + borderSize / 2,
-			pixelSize - borderSize,
-			pixelSize - borderSize,
-			roundSize,
-		);
-		ctx.stroke();
+
+		// Draw a border
+		// ctx.strokeStyle = '#27272a';
+		// ctx.lineWidth = borderSize;
+		// ctx.roundRect(
+		// 	x * pixelSize + borderSize / 2,
+		// 	y * pixelSize + borderSize / 2,
+		// 	pixelSize - borderSize,
+		// 	pixelSize - borderSize,
+		// 	roundSize,
+		// );
+		// ctx.stroke();
+
 		ctx.closePath();
 		ctx.globalAlpha = 1;
 	}
