@@ -7,6 +7,7 @@
 		setPixels: string[][];
 	} = $props();
 
+	const DEBUG: boolean = false;
 	const pixelSize: number = 16;
 	const borderSize: number = 2;
 	let canvas: HTMLCanvasElement | undefined = $state();
@@ -35,7 +36,7 @@
 					drawPixel(ctx, x - 1, y - 1, color);
 				}
 			}
-			console.log(`Draw Took ${Date.now() - start}ms`);
+			if (DEBUG) console.log(`Draw Took ${Date.now() - start}ms`);
 		}
 	}
 	function canvasClicked(e: MouseEvent) {
@@ -46,11 +47,13 @@
 		let y: number = Math.floor(clickedY / pixelSize);
 
 		activatePixel(x, y);
-		// draw();
+
+		let start = Date.now();
 		if (!canvas) return;
 		let ctx = canvas.getContext('2d');
 		if (!ctx) return;
 		drawPixel(ctx, x, y, getPixelColor(x + 1, y + 1), true);
+		if (DEBUG) console.log(`Redraw Took ${Date.now() - start}ms`);
 	}
 	function canvasRightClicked(e: MouseEvent) {
 		e.preventDefault();
@@ -63,7 +66,7 @@
 		let newState = !isPixelActivated(x, y);
 		let color = getPixelColor(x + 1, y + 1);
 
-		// let start = Date.now();
+		let start = Date.now();
 		// Scanline Flood Fill
 		let queue: number[][] = [[x, y]]; // Queue of y coordinates to check
 		let pixelsToRedraw: number[][] = [];
@@ -115,16 +118,19 @@
 				rightx++;
 			}
 		}
-		// console.log(`Flood Fill Took ${Date.now() - start}ms`);
+		let floodFillTime = Date.now() - start;
 
+		start = Date.now();
 		if (!canvas) return;
 		let ctx = canvas.getContext('2d');
 		if (!ctx) return;
 		for (let [x, y] of pixelsToRedraw) {
 			drawPixel(ctx, x!, y!, getPixelColor(x! + 1, y! + 1), true);
 		}
-
-		// draw();
+		if (DEBUG)
+			console.log(
+				`Flood Fill Took ${floodFillTime}ms. Redraw Took ${Date.now() - start}ms`,
+			);
 	}
 
 	function drawPixel(
