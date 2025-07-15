@@ -21,7 +21,7 @@
 
 	function draw() {
 		if (canvas) {
-			let start = Date.now();
+			// let start = Date.now();
 			let gridSize = setPixels.length;
 			canvas.width = (gridSize - 1) * pixelSize;
 			canvas.height = (gridSize - 1) * pixelSize;
@@ -35,7 +35,7 @@
 					drawPixel(ctx, x - 1, y - 1, getPixelColor(x, y));
 				}
 			}
-			console.log(`Draw Took ${Date.now() - start}ms`);
+			// console.log(`Draw Took ${Date.now() - start}ms`);
 		}
 	}
 	function canvasClicked(e: MouseEvent) {
@@ -63,7 +63,7 @@
 		// Flood Fill Clicked and all neighboring pixels of the same color to the opposite activation state
 		let queue: number[][] = [[x, y]];
 		let checkedPixels: string[] = [];
-		let start = Date.now();
+		// let start = Date.now();
 		while (queue.length > 0) {
 			let xyArr: number[] | undefined = queue.shift();
 			if (xyArr === undefined) continue;
@@ -104,8 +104,8 @@
 				}
 			}
 		}
-		console.log(checkedPixels.length);
-		console.log(`Flood Fill Took ${Date.now() - start}ms`);
+		// console.log(checkedPixels.length);
+		// console.log(`Flood Fill Took ${Date.now() - start}ms`);
 
 		draw();
 	}
