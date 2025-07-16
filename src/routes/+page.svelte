@@ -22,7 +22,11 @@
 		if (browser) {
 			mainCircleSize = Number(localStorage.getItem('mainCircleSize')) || 20;
 			secondCircleSize = Number(localStorage.getItem('secondCircleSize')) || 10;
-			numberOfSegments = Number(localStorage.getItem('numberOfSegments')) || 8;
+			let _numberOfSegments = localStorage.getItem('numberOfSegments');
+			if (_numberOfSegments === null) {
+				_numberOfSegments = '8';
+			}
+			numberOfSegments = parseInt(_numberOfSegments);
 			segmentColoringMethod = (localStorage.getItem('segmentColoringMethod') ||
 				'colorWheel') as SegmentColoringMethod;
 
