@@ -66,8 +66,8 @@
 		);
 
 		if (drawSecondCircle && secondCircleSize > 0) {
-			if (secondCircleSize > mainCircleSize) {
-				secondCircleSize = mainCircleSize;
+			if (secondCircleSize > mainCircleSize - 1) {
+				secondCircleSize = mainCircleSize - 1;
 			}
 			drawCircle(pixels, gridSize, secondCircleSize, true);
 		}
