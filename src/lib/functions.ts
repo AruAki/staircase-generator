@@ -76,7 +76,6 @@ export function drawCircle(
 	fill = false,
 	thinCorners = true,
 ) {
-	let start = Date.now();
 	let cx = gridSize / 2;
 	let cy = gridSize / 2;
 
@@ -179,8 +178,6 @@ export function drawCircle(
 			drawPixel(pixels, x, y, color);
 		});
 	});
-
-	console.log(`Draw Circle took ${Date.now() - start}ms`);
 }
 
 export function drawSegments(
