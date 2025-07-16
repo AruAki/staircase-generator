@@ -73,14 +73,18 @@
 		let start = Date.now();
 		// Scanline Flood Fill
 		let queue: number[][] = [[x, y]]; // Queue of y coordinates to check
-		let pixelsToRedraw: number[][] = [];
 		while (queue.length > 0) {
 			let [x, y]: any = queue.pop();
 			if (x === undefined || y === undefined) continue;
 
 			// Move left until edge of canvas or color.
 			let leftx = x;
-			while (leftx >= 0 && getPixelColor(leftx + 1, y + 1) === color) leftx--;
+			while (
+				leftx >= 0 &&
+				getPixelColor(leftx + 1, y + 1) === color &&
+				isPixelActivated(leftx, y) !== newState
+			)
+				leftx--;
 			leftx++;
 
 			let spanAbove = false;
@@ -95,7 +99,6 @@
 			) {
 				setActivatePixel(rightx, y, newState);
 				drawPixel(ctx, rightx, y, color, true); // Redraw the pixel
-				pixelsToRedraw.push([rightx, y]);
 
 				// Check Pixel above
 				if (y > 0 && getPixelColor(rightx + 1, y - 1 + 1) === color) {
