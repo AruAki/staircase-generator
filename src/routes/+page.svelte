@@ -74,7 +74,7 @@
 </svelte:head>
 
 <div class="flex min-h-screen w-full flex-col items-center gap-6 p-4">
-	<h1 class="text-4xl">Spiral & Curved Staircase Generator</h1>
+	<h1 class="text-center text-4xl">Spiral & Curved Staircase Generator</h1>
 	<div class="flex flex-col gap-6 border-b border-zinc-700 pb-4">
 		<div class="flex flex-col items-end gap-4 md:flex-row">
 			<div class="flex flex-row gap-2">
