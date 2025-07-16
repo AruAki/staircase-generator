@@ -3,7 +3,7 @@
 	import CanvasRenderer from '$lib/components/CanvasRenderer.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import { drawCircle } from '$lib/functions';
+	import { drawCircle, drawSegments } from '$lib/functions';
 	import type { SegmentColoringMethod } from '$lib/types';
 	import { onMount } from 'svelte';
 
@@ -48,16 +48,14 @@
 		localStorage.setItem('segmentColoringMethod', segmentColoringMethod);
 
 		pixels = [];
-		drawCircle(
+		drawCircle(pixels, gridSize, mainCircleSize, mainCircleSize, false);
+		drawSegments(
 			pixels,
 			gridSize,
 			mainCircleSize,
-			mainCircleSize,
-			false,
-			true,
-			segmentColoringMethod,
 			numberOfSegments,
 			fillSegments,
+			segmentColoringMethod,
 		);
 
 		if (drawSecondCircle && secondCircleSize > 0) {

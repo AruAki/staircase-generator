@@ -75,10 +75,6 @@ export function drawCircle(
 	radius: number,
 	thickness = 10,
 	fill = false,
-	drawSegments = false,
-	segmentColoringMethod: SegmentColoringMethod = 'colorWheel',
-	numberOfSegments = 8,
-	fillWedges = true,
 ) {
 	let cx = gridSize / 2;
 	let cy = gridSize / 2;
@@ -103,8 +99,19 @@ export function drawCircle(
 			}
 		}
 	}
+}
 
+export function drawSegments(
+	pixels: string[][],
+	gridSize: number,
+	radius: number,
+	numberOfSegments: number,
+	fillWedges: boolean,
+	segmentColoringMethod: SegmentColoringMethod,
+) {
 	if (!drawSegments || numberOfSegments === 0) return;
+	let cx = gridSize / 2;
+	let cy = gridSize / 2;
 
 	// Draw wedges dividing the circle into segments
 	let segmentAngle = 360 / numberOfSegments;
