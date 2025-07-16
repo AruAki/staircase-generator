@@ -202,7 +202,7 @@
 					<label for="fillSegments">Fill Segments?</label>
 				</div>
 			</div>
-			<div class="flex flex-1 flex-row gap-2">
+			<div class="flex w-full flex-1 flex-row gap-2">
 				<Select
 					value={segmentColoringMethod}
 					onchange={(v) => {
