@@ -39,6 +39,7 @@
 				'absolute flex flex-row items-center gap-1 px-1 text-base transition-all': true,
 				'left-2 top-1/2 -z-10 -translate-y-1/2 bg-transparent':
 					!focused && value === '',
+				'text-zinc-600': disabled,
 				'!left-7': !focused && value === '' && !iconFollowsLabel && Icon,
 				'-top-2.5 left-2 z-0 !text-sm': focused || value !== '',
 				[labelFocusedClass]: focused || value !== '',
@@ -58,7 +59,7 @@
 		{type}
 		bind:value
 		class={[
-			'w-full rounded-md border-2 bg-transparent px-3 py-2 outline-none focus:border-purple-500',
+			'w-full rounded-md border-2 bg-transparent px-3 py-2 outline-none focus:border-purple-500 disabled:cursor-not-allowed disabled:border-zinc-800 disabled:text-zinc-600',
 			`${Icon && !iconFollowsLabel ? 'pl-8' : ''}`,
 			_class,
 		]}
