@@ -74,16 +74,13 @@ export function drawCircle(
 	gridSize: number,
 	radius: number,
 	fill = false,
+	thinCorners = true,
 ) {
+	let start = Date.now();
 	let cx = gridSize / 2;
 	let cy = gridSize / 2;
 
-	type Pixel = {
-		x: number;
-		y: number;
-		color: string;
-	};
-	let circlePixels: Pixel[] = [];
+	let circlePixels: string[][] = [];
 	for (let x = 0; x <= gridSize; x++) {
 		for (let y = 0; y <= gridSize; y++) {
 			let radiusSquared = Math.pow(radius, 2);
@@ -93,22 +90,97 @@ export function drawCircle(
 
 			if (fill) {
 				if (distSquared <= radiusSquared + radius) {
-					circlePixels.push({ x, y, color: '#fff' });
+					if (circlePixels[x] === undefined) {
+						circlePixels[x] = [];
+					}
+					circlePixels[x]![y] = '#fff';
 				}
 			} else {
 				if (
 					radiusSquared - radius <= distSquared &&
 					distSquared <= radiusSquared + radius
 				) {
-					circlePixels.push({ x, y, color: '#fff' });
+					if (circlePixels[x] === undefined) {
+						circlePixels[x] = [];
+					}
+					circlePixels[x]![y] = '#fff';
 				}
 			}
 		}
 	}
 
-	for (let pixel of circlePixels) {
-		drawPixel(pixels, pixel.x, pixel.y, pixel.color);
-	}
+	circlePixels.forEach((row, x) => {
+		if (row === undefined) return;
+		row.forEach((color, y) => {
+			if (thinCorners && x !== cx && y !== cy && !fill) {
+				// Thin circle, remove any pixel that has 2 neighbors that are occupied
+
+				// Determine the quadrant the pixel is in, to determine which directions to check for corners
+				let quadrant: number = 0;
+				if (x > cx && y > cy) {
+					quadrant = 0; // Bottom Right
+				} else if (x > cx && y < cy) {
+					quadrant = 1; // Top Right
+				} else if (x < cx && y < cy) {
+					quadrant = 2; // Top Left
+				} else if (x < cx && y > cy) {
+					quadrant = 3; // Bottom Left
+				}
+
+				let isCorner = false;
+				switch (quadrant) {
+					case 0: // Bottom Right
+						if (
+							circlePixels[x]?.[y - 1] === color &&
+							circlePixels[x - 1]?.[y] === color &&
+							circlePixels[x + 1]?.[y] === undefined &&
+							circlePixels[x]?.[y + 1] === undefined
+						) {
+							isCorner = true;
+						}
+						break;
+					case 1: // Top Right
+						if (
+							circlePixels[x]?.[y + 1] === color &&
+							circlePixels[x - 1]?.[y] === color &&
+							circlePixels[x + 1]?.[y] === undefined &&
+							circlePixels[x]?.[y - 1] === undefined
+						) {
+							isCorner = true;
+						}
+						break;
+					case 2: // Top Left
+						if (
+							circlePixels[x]?.[y + 1] === color &&
+							circlePixels[x + 1]?.[y] === color &&
+							circlePixels[x - 1]?.[y] === undefined &&
+							circlePixels[x]?.[y - 1] === undefined
+						) {
+							isCorner = true;
+						}
+						break;
+					case 3: // Bottom Left
+						if (
+							circlePixels[x]?.[y - 1] === color &&
+							circlePixels[x + 1]?.[y] === color &&
+							circlePixels[x - 1]?.[y] === undefined &&
+							circlePixels[x]?.[y + 1] === undefined
+						) {
+							isCorner = true;
+						}
+						break;
+				}
+				if (isCorner) {
+					// Delete this pixel
+					circlePixels[x]!.slice(y, 1);
+					return;
+				}
+			}
+			drawPixel(pixels, x, y, color);
+		});
+	});
+
+	console.log(`Draw Circle took ${Date.now() - start}ms`);
 }
 
 export function drawSegments(
