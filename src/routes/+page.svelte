@@ -48,7 +48,7 @@
 		localStorage.setItem('segmentColoringMethod', segmentColoringMethod);
 
 		pixels = [];
-		drawCircle(pixels, gridSize, mainCircleSize, mainCircleSize, false);
+		drawCircle(pixels, gridSize, mainCircleSize, false);
 		drawSegments(
 			pixels,
 			gridSize,
@@ -62,7 +62,7 @@
 			if (secondCircleSize > mainCircleSize) {
 				secondCircleSize = mainCircleSize;
 			}
-			drawCircle(pixels, gridSize, secondCircleSize, secondCircleSize, true);
+			drawCircle(pixels, gridSize, secondCircleSize, true);
 		}
 	}
 </script>
