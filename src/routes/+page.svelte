@@ -219,7 +219,6 @@
 					max={mainCircleSize}
 					bind:value={secondCircleSize}
 					onchange={() => {
-						console.log(drawSecondCircle);
 						draw();
 					}}
 				/>
