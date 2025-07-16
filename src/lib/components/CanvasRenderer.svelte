@@ -123,6 +123,9 @@
 				rightx++;
 			}
 		}
+
+		setActivatePixel(x, y, newState);
+		drawPixel(ctx, x, y, color, true); // Redraw the pixel
 		if (DEBUG) console.log(`Flood Fill + Redraw Took ${Date.now() - start}ms.`);
 	}
 
