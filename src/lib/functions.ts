@@ -198,6 +198,9 @@ export function drawSegments(
 	for (let i = 0; i < numberOfSegments; i++) {
 		let color = '#000';
 		let variation = i % 3;
+		if (variation === 0 && i === numberOfSegments - 1) {
+			variation = 1;
+		}
 		if (segmentColoringMethod === 'alternating') {
 			switch (variation) {
 				case 0:
