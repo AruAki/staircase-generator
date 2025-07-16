@@ -75,11 +75,15 @@ export function drawCircle(
 	radius: number,
 	fill = false,
 ) {
-	let start = Date.now();
 	let cx = gridSize / 2;
 	let cy = gridSize / 2;
 
-	let circlePixels: string[][] = [];
+	type Pixel = {
+		x: number;
+		y: number;
+		color: string;
+	};
+	let circlePixels: Pixel[] = [];
 	for (let x = 0; x <= gridSize; x++) {
 		for (let y = 0; y <= gridSize; y++) {
 			let radiusSquared = Math.pow(radius, 2);
@@ -89,38 +93,22 @@ export function drawCircle(
 
 			if (fill) {
 				if (distSquared <= radiusSquared + radius) {
-					if (circlePixels[x] === undefined) {
-						circlePixels[x] = [];
-					}
-					circlePixels[x]![y] = '#fff';
-					drawPixel(pixels, x, y, '#fff');
+					circlePixels.push({ x, y, color: '#fff' });
 				}
 			} else {
 				if (
 					radiusSquared - radius <= distSquared &&
 					distSquared <= radiusSquared + radius
 				) {
-					if (circlePixels[x] === undefined) {
-						circlePixels[x] = [];
-					}
-					circlePixels[x]![y] = '#fff';
-					drawPixel(pixels, x, y, '#fff');
+					circlePixels.push({ x, y, color: '#fff' });
 				}
 			}
 		}
 	}
-	// console.log(circlePixels);
-	// for (let x = 0; x < gridSize; x++) {
-	// 	for (let y = 0; y < gridSize; y++) {
-	// 		if (circlePixels[x] === undefined) {
-	// 			drawPixel(pixels, x, y, '#fff');
-	// 		} else {
-	// 			drawPixel(pixels, x, y, circlePixels[x]![y]!);
-	// 		}
-	// 	}
-	// }
 
-	console.log(`Draw Circle took ${Date.now() - start}ms`);
+	for (let pixel of circlePixels) {
+		drawPixel(pixels, pixel.x, pixel.y, pixel.color);
+	}
 }
 
 export function drawSegments(
