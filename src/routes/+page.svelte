@@ -149,7 +149,7 @@
 					<input
 						type="range"
 						min="1"
-						max={mainCircleSize}
+						max={mainCircleSize - 1}
 						bind:value={secondCircleSize}
 						disabled={!drawSecondCircle}
 						onchange={() => {
