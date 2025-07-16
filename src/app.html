@@ -1,33 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>staircase-generator</title>
+		<meta
+			name="description"
+			content="Generate pixel spiral and curved staircases"
+		/>
+		<meta name="author" content="Aru Aki" />
+		<meta
+			property="og:title"
+			content="Aru Aki's Pixel Spiral & Curved Staircase Generator"
+		/>
+		<meta
+			property="og:description"
+			content="Generate pixel spiral and curved staircases"
+		/>
+		<meta
+			name="keywords"
+			content="pixel, spiral, curved, staircase, generator, aru aki, minecraft, minecraft-java, minecraft-bedrock, build, circle"
+		/>
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Matomo -->
+		<script>
+			var _paq = (window._paq = window._paq || []);
+			/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+			_paq.push(['trackPageView']);
+			_paq.push(['enableLinkTracking']);
+			(function () {
+				var u = '//analytics.aruaki.ca/';
+				_paq.push(['setTrackerUrl', u + 'matomo.php']);
+				_paq.push(['setSiteId', '1']);
+				var d = document,
+					g = d.createElement('script'),
+					s = d.getElementsByTagName('script')[0];
+				g.async = true;
+				g.src = u + 'matomo.js';
+				s.parentNode.insertBefore(g, s);
+			})();
+		</script>
+		<!-- End Matomo Code -->
+		%sveltekit.head%
+	</head>
 
-<head>
-	<meta charset="utf-8" />
-	<title>staircase-generator</title>
-	<meta
-		name="description"
-		content="Generate pixel spiral and curved staircases"
-	/>
-	<meta name="author" content="Aru Aki" />
-	<meta
-		property="og:title"
-		content="Aru Aki's Pixel Spiral & Curved Staircase Generator"
-	/>
-	<meta
-		property="og:description"
-		content="Generate pixel spiral and curved staircases"
-	/>
-	<meta
-		name="keywords"
-		content="pixel, spiral, curved, staircase, generator, aru aki, minecraft, minecraft-java, minecraft-bedrock, build, circle"
-	/>
-	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	%sveltekit.head%
-</head>
-
-<body data-sveltekit-preload-data="hover">
-	<div class="contents">%sveltekit.body%</div>
-</body>
-
+	<body data-sveltekit-preload-data="hover">
+		<div class="contents">%sveltekit.body%</div>
+	</body>
 </html>
