@@ -125,27 +125,6 @@
 
 				rightx++;
 			}
-
-			// // Move from the right to ensure we haven't missed any lines
-			let farRight = x;
-			while (
-				farRight < setPixels.length &&
-				getPixelColor(farRight + 1, y + 1) === color &&
-				isPixelActivated(farRight, y) !== newState
-			)
-				farRight++;
-			farRight = farRight;
-			console.log(y, farRight, getPixelColor(farRight + 1, y + 1));
-			while (
-				farRight >= 0 &&
-				getPixelColor(farRight + 1, y + 1) === color &&
-				isPixelActivated(farRight, y) !== newState
-			) {
-				console.log('1', farRight, y);
-				setActivatePixel(rightx, y, newState);
-				drawPixel(ctx, rightx, y, color, true); // Redraw the pixel
-				farRight--;
-			}
 		}
 		if (DEBUG) console.log(`Flood Fill + Redraw Took ${Date.now() - start}ms.`);
 	}
